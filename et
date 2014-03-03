@@ -1,0 +1,18 @@
+#!/bin/env python
+import sys, os
+
+f=open(sys.argv[1], 'r')
+all=f.read()
+
+TAB_TO_SPACE_SIZE = 4
+
+lst = []
+for c in all:
+  if c == '\t':
+    lst.append('\x20'*TAB_TO_SPACE_SIZE)
+  else:
+    lst.append(c)
+
+print ''.join(lst)
+
+

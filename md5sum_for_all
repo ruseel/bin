@@ -1,0 +1,22 @@
+#!/usr/bin/ruby 
+require 'digest/md5'
+
+def walk(dir, &blk)
+  Dir.foreach(dir) do |f|
+    next if f == '.' or f == '..'
+
+    path = File.join(dir, f)
+    walk(path, &blk) if File::directory?(path)
+
+    yield path if File::file?(path)
+  end
+end
+
+def md5sum(path)
+  Digest::MD5.hexdigest(File.open(path).read)
+end
+
+dir=ARGV[0]
+walk(dir) do |path|
+  puts "#{path[dir.size..-1]}\t#{md5sum path}"
+end
